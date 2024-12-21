@@ -127,9 +127,8 @@ public class MemberRepository {
         return id;
     }
 
-    private static void updateMemberId(int id, List<Member> members){
+    private static Member updateMemberId(int id, List<Member> members){
         Scanner scanner = new Scanner(System.in);
-        boolean updated = false;
         for (Member member: members){
             if (member.getId() == id){
                 System.out.println("Press enter to use current value");
@@ -138,18 +137,62 @@ public class MemberRepository {
                 try {
                     int newId = validateMemberId(Integer.parseInt(value), members);
                     member.setId(newId);
-                    updated = true;
                     System.out.println("Member with id: " + id + " updated to: " + newId);
                 } catch (NumberFormatException _) {}
+                return member;
             }
         }
-        if (!updated){
-            System.out.println("No member with id: "  + id + " was found please try again later!");
-        }
+        System.out.println("No member with id: " + id + " was found please try again later!");
+        return null;
     }
 
-    private static void updateMemberName(String name, List<Member> members){
+    private static String validateMemberName(String name, List<Member> members){
+        Scanner scanner = new Scanner(System.in);
 
+        // validate that there isn't any member with similar name
+        // if there is a member with same name ask user to change name
+        ArrayList<Member> duplicateMembers = new ArrayList<>();
+        for (Member currentMember : members) {
+            if (Objects.equals(currentMember.getName(), name)) {
+                duplicateMembers.add(currentMember);
+            }
+        }
+        while (!duplicateMembers.isEmpty()) {
+            ArrayList<Member> trashedMembers = new ArrayList<>();
+
+            for (Member currentMember : duplicateMembers) {
+                // checks if a member with the same name already exists
+                // and then makes sure the user inputs the correct name
+                System.out.println("Member with name: " + name + " already exists");
+                System.out.print("Input new member name: ");
+                String newName = scanner.nextLine();
+                if (!Objects.equals(newName, name)) {
+                    trashedMembers.add(currentMember);
+                    return newName;
+                }
+            }
+            duplicateMembers.removeAll(trashedMembers);
+        }
+        return name;
+    }
+
+    private static Member updateMemberName(String name, List<Member> members){
+        Scanner scanner = new Scanner(System.in);
+        for (Member member: members){
+            if (Objects.equals(member.getName(), name)){
+                System.out.println("Press enter to use current value");
+                System.out.print("Input new member name: ");
+                String value = scanner.nextLine();
+                if (!value.isEmpty()){
+                    String newName = validateMemberName(value, members);
+                    member.setName(newName);
+                    System.out.println("Member with name: " + name + " updated to: " + newName);
+                }
+                return member;
+            }
+        }
+        System.out.println("No member with name: " + name + " was found please try again later!");
+        return null;
     }
 
 
@@ -166,9 +209,15 @@ public class MemberRepository {
             name = value;
         }
         if (id != null){
-            updateMemberId(id, members);
+            Member member = updateMemberId(id, members);
+            if (member != null){
+                updateMemberName(member.getName(), members);
+            }
         } else if (name != null) {
-            updateMemberName(name, members);
+            Member member = updateMemberName(name, members);
+            if (member != null){
+                updateMemberId(member.getId(), members);
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 package repostories;
 
 import models.Book;
+import models.BookMember;
+import models.Member;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,7 +106,18 @@ public class BookRepository {
 
     }
 
-    public static void borrowBook (ArrayList<Book> books){
+    public static void borrowBook (ArrayList<Book> books, ArrayList<Member> members, ArrayList<BookMember> history){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("============= Borrow Book =============");
+        System.out.println("Input member id or member name: ");
+        String value = scanner.nextLine();
+        Integer id = null;
+        try {
+            id = Integer.parseInt(value);
+        } catch (NumberFormatException _) {}
+        if (id == null){
+
+        }
 
     }
 
