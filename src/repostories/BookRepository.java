@@ -100,6 +100,10 @@ public class BookRepository {
         System.out.println("Book successfully added\n");
     }
 
+    public static void updateBook(List<Book> books){
+
+    }
+
     public static void borrowBook (ArrayList<Book> books){
 
     }

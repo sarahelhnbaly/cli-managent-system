@@ -35,8 +35,25 @@ public class LibraryManager {
         System.out.println(history);
     }
 
-    private static void updateEntities(){
-
+    private static void updateEntities(List<Integer> steps,  List<Book> books, List<Member> members, List<BookMember> history){
+        int choice = Menu.displayUpdateEntityMenu();
+        steps.add(choice);
+        switch (choice) {
+            case 0, 4:
+                break;
+            case 1:
+                MemberRepository.updateMember(members);
+                break;
+            case 2:
+                BookRepository.updateBook(books);
+                break;
+            case 3:
+                System.out.println("Not yet implemented");
+                break;
+            default:
+                System.out.println("Invalid choice, returning to home menu");
+                break;
+        }
     }
     private static void deleteEntities(){
 
@@ -49,7 +66,7 @@ public class LibraryManager {
             case 0, 5:
                 break;
             case 1:
-                updateEntities();
+                updateEntities(steps, books, members, history);
                 break;
             case 2:
                 deleteEntities();

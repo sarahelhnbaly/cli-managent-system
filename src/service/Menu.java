@@ -20,7 +20,7 @@ public class Menu {
         System.out.println("========== Add Entity ===========");
         System.out.println("1. Add Book");
         System.out.println("2. Add Member");
-        System.out.println("3. Go Back");
+        System.out.println("3. Go To Main Menu");
         System.out.println("0. Exit");
         return scanner.nextInt();
     }
@@ -32,7 +32,7 @@ public class Menu {
         System.out.println("2. Delete Entity");
         System.out.println("3. Borrow Book");
         System.out.println("4. Return Book");
-        System.out.println("5. Go Back");
+        System.out.println("5. Go To Main Menu");
         System.out.println("0. Exit");
         return scanner.nextInt();
     }
@@ -43,7 +43,7 @@ public class Menu {
         System.out.println("1. Update Member");
         System.out.println("2. Update Book");
         System.out.println("3. Update Lending History");
-        System.out.println("4. Go Back");
+        System.out.println("4. Go To Main Menu");
         System.out.println("0. Exit");
         return scanner.nextInt();
     }
@@ -53,7 +53,7 @@ public class Menu {
         System.out.println("1. Delete Member");
         System.out.println("2. Delete Book");
         System.out.println("3. Delete Lending Instance from History");
-        System.out.println("4. Go Back");
+        System.out.println("4. Go To Main Menu");
         System.out.println("0. Exit");
         return scanner.nextInt();
     }
