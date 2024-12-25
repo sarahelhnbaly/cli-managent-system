@@ -29,7 +29,7 @@ public class LibraryManager {
 
     }
 
-    public static void showAllEntities(List<Integer> steps, List<Book> books, List<Member> members, List<BookMember> history) {
+    public static void showAllEntities( List<Book> books, List<Member> members, List<BookMember> history) {
         BookRepository.displayBooks(books);
         MemberRepository.displayMember(members);
         System.out.println(history);
@@ -72,10 +72,10 @@ public class LibraryManager {
                 deleteEntities();
                 break;
             case 3:
-                BookRepository.borrowBook(books);
+                BookRepository.borrowBook(books, members, history);
                 break;
             case 4:
-                BookRepository.returnBook(books);
+                BookRepository.returnBook(books, history);
                 break;
             default:
                 System.out.println("Invalid choice, returning to home menu");

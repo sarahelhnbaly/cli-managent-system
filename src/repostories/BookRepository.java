@@ -106,31 +106,123 @@ public class BookRepository {
 
     }
 
+    /**
+     * Method for implementation fo borrowing books from the library system
+     * @param books arraylist of reference to books instances for easy updating
+     * @param members arraylist of reference to members who are in the library system that might borrow from library
+     * @param history arraylist of reference to bookMembers instances for easy
+     *                updating for members who borrow from library
+     */
     public static void borrowBook (ArrayList<Book> books, ArrayList<Member> members, ArrayList<BookMember> history){
         Scanner scanner = new Scanner(System.in);
         System.out.println("============= Borrow Book =============");
-        System.out.println("Input member id or member name: ");
-        String value = scanner.nextLine();
-        Integer id = null;
-        try {
-            id = Integer.parseInt(value);
-        } catch (NumberFormatException _) {}
-        if (id == null){
-
+        System.out.print("Input member id: ");
+        int memberId = scanner.nextInt();
+        Member selectedMember = null;
+        for (Member member : members) {
+            if (member.getId() == memberId){
+                selectedMember = member;
+            }
+        }
+        if (selectedMember != null){
+            scanner.nextLine();
+            System.out.println("Input id of book,");
+            System.out.print("which " + selectedMember.getName() + " wants to borrow: ");
+            int bookId = scanner.nextInt();
+            Book selectedBook = null;
+            for (Book book : books) {
+                if (book.getId() == bookId){
+                    if (!book.isAvailable()){
+                        System.out.println("That book is not available");
+                    } else {
+                        selectedBook = book;
+                    }
+                }
+            }
+            if (selectedBook != null){
+                BookMember bookMember = new BookMember(selectedBook.getId(), selectedMember.getId(), false);
+                if (history.contains(bookMember)){
+                    System.out.println("Member already borrowed particular book without returning,\n" +
+                            "Please return current book before borrowing again!!!");
+                } else {
+                    selectedBook.borrow();
+                    history.add(bookMember);
+                    System.out.println("Member added to ledger!!!");
+                }
+            }
+        } else {
+            System.out.println("Member not found!, please try again later.");
         }
 
     }
 
-    public static void returnBook(ArrayList<Book> books){
-
+    /**
+     * Method responsible for users returning books to book library system
+     * @param books list of books in the library
+     * @param history array list of books linked to members who borrowed those books
+     */
+    public static void returnBook(ArrayList<Book> books, ArrayList<BookMember> history){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("============= Return Book =============");
+        System.out.print("Input id of member that wants to return book: ");
+        int memberId = scanner.nextInt();
+        // empty list of books borrowed by member
+        ArrayList<BookMember> selectedRecords = new ArrayList<>();
+        for (BookMember bookMember : history) {
+            if (bookMember.getMemberId() == memberId){
+                selectedRecords.add(bookMember);
+            }
+        }
+        if (selectedRecords.isEmpty()){
+            System.out.println("Member with id: " + memberId + " hasn't borrowed any book yet");
+        } else {
+            // if member has several books which have been borrowed display them
+            // so the librarian can see the book id that needs to be returned
+            System.out.println("Which book wants to be returned:");
+            for (BookMember bookMember : selectedRecords) {
+                Book selectedBook = null;
+                for (Book book : books) {
+                    if (book.getId() == bookMember.getBookId()){
+                        selectedBook = book;
+                    }
+                }
+                if (selectedBook != null){
+                    System.out.println("Book id: " + selectedBook.getId() + ", Book title: " + selectedBook.getTitle());
+                }
+            }
+            System.out.print("Input book id: ");
+            int bookId = scanner.nextInt();
+            boolean returned = false;
+            // updates library records to reflect that the user
+            // has returned the book if book id inputted was valid
+            for (BookMember record : selectedRecords) {
+                if (record.getBookId() == bookId){
+                    history.remove(record);
+                    for (Book book : books) {
+                        if (book.getId() == bookId){
+                            book.returnBook();
+                            System.out.println("Book returned successfully");
+                            returned = true;
+                        }
+                    }
+                }
+            }
+            if (!returned){
+                System.out.println("Book with bookId: " + bookId + " has not been borrowed by member.");
+            }
+        }
     }
 
+    /**
+     * Displays the books in readable format for user
+     * @param books list of books in library system
+     */
     public static void displayBooks (List<Book> books){
         System.out.println("============= Books ==============");
         for (Book book : books){
             String[] values = book.toString().split(",");
             System.out.println("Book id: " + values[0] + ", Book title: " + values[1] + ", Book author: " + values[2] + ", Book count: " + values[3]);
-        };
+        }
         System.out.println("===================================\n");
     }
 }
