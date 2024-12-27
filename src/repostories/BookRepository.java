@@ -3,6 +3,7 @@ package repostories;
 import models.Book;
 import models.BookMember;
 import models.Member;
+import service.Menu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,8 +103,116 @@ public class BookRepository {
         System.out.println("Book successfully added\n");
     }
 
-    public static void updateBook(List<Book> books){
+    public static Book validateBookTitle(String title, List<Book> books){
+        for (Book currentBook : books) {
+            if (Objects.equals(title.toLowerCase(), currentBook.getTitle().toLowerCase())){
+                System.out.println("Title already exists");
+                return currentBook;
+            }
+        }
+        return null;
+    }
 
+    public static void updateBookTitle(Book book, List<Book> books){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("========== Update Book title: " + book.getTitle() + " ===========");
+        System.out.print("Input new book Title: ");
+        String newTitle = scanner.nextLine();
+        Book duplicateBook = validateBookTitle(newTitle, books);
+
+        if (duplicateBook != null){
+            while (duplicateBook != null){
+                System.out.print("Input new book title: ");
+                newTitle = scanner.nextLine();
+                duplicateBook = validateBookTitle(newTitle, books);
+            }
+        }
+        book.setTitle(newTitle);
+        System.out.println("Book successfully updated\n");
+    }
+
+    public static Book validateBookId(int id, List<Book> books){
+        for (Book currentBook : books) {
+            if (id == currentBook.getId()) {
+                System.out.println("Id already exists");
+                return currentBook;
+            }
+        }
+        return null;
+    }
+
+    public static void updateBookAuthor(Book book, List<Book> books){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("========== Update Book Author: " + book.getAuthor() + " ===========");
+        System.out.print("Input new book Author: ");
+        String newAuthor = scanner.nextLine();
+        book.setAuthor(newAuthor);
+        System.out.println("Book successfully updated\n");
+    }
+
+    public static void updateBookId(Book book, List<Book> books){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("========== Update Book Id: " + book.getId() + " ===========");
+        System.out.print("Input new book id: ");
+        int newId = scanner.nextInt();
+        Book duplicateBook = validateBookId(newId, books);
+
+        if (duplicateBook != null){
+            while (duplicateBook != null){
+                System.out.print("Input new book Id: ");
+                newId = scanner.nextInt();
+                duplicateBook = validateBookId(newId, books);
+            }
+        }
+        book.setId(newId);
+        System.out.println("Book successfully updated\n");
+    }
+
+    public static void updateBookCount(Book book, List<Book> books){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("========== Update Book count ===========");
+        System.out.print("Input number of available copies: ");
+        int newCount = scanner.nextInt();
+        book.setAvailableCopies(newCount);
+        System.out.println("Book successfully updated\n");
+    }
+
+
+    public static void updateBook(List<Integer> steps, List<Book> books){
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Input book id: ");
+        int bookId = scanner.nextInt();
+        Book selectedBook = null;
+        for (Book book : books){
+            if (book.getId() == bookId) {
+                selectedBook = book;
+            }
+        }
+        if (selectedBook == null) {
+            System.out.println("Book not found");
+            return;
+        }
+        int choice = Menu.displayUpdateBookMenu(bookId);
+        steps.add(choice);
+        scanner.nextLine();
+        switch (choice){
+            case 0:
+                break;
+            case 1:
+                updateBookTitle(selectedBook, books);
+                break;
+            case 2:
+                updateBookAuthor(selectedBook, books);
+                break;
+            case 3:
+                updateBookId(selectedBook, books);
+                break;
+            case 4:
+                updateBookCount(selectedBook, books);
+                break;
+            default:
+                System.out.println("Invalid choice");
+        }
     }
 
     /**
@@ -224,5 +333,10 @@ public class BookRepository {
             System.out.println("Book id: " + values[0] + ", Book title: " + values[1] + ", Book author: " + values[2] + ", Book count: " + values[3]);
         }
         System.out.println("===================================\n");
+    }
+
+    public static void deleteBook(List<Integer> steps, List<Book> books) {
+
+
     }
 }

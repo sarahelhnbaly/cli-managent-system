@@ -1,6 +1,5 @@
 package repostories;
 
-import models.Book;
 import models.Member;
 
 import java.util.ArrayList;
@@ -219,5 +218,8 @@ public class MemberRepository {
                 updateMemberId(member.getId(), members);
             }
         }
+    }
+
+    public static void deleteMember(List<Member> members) {
     }
 }

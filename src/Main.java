@@ -34,7 +34,7 @@ public class Main {
                         LibraryManager.addEntity(steps, books, members);
                         break;
                     case 2:
-                        LibraryManager.showAllEntities(steps, books, members, ledger.getHistory());
+                        LibraryManager.showAllEntities( books, members, ledger.getHistory());
                         break;
                     case 3:
                         LibraryManager.performInteraction(steps, books, members, ledger.getHistory());

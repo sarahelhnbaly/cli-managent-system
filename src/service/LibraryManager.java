@@ -45,7 +45,7 @@ public class LibraryManager {
                 MemberRepository.updateMember(members);
                 break;
             case 2:
-                BookRepository.updateBook(books);
+                BookRepository.updateBook(steps, books);
                 break;
             case 3:
                 System.out.println("Not yet implemented");
@@ -55,8 +55,25 @@ public class LibraryManager {
                 break;
         }
     }
-    private static void deleteEntities(){
-
+    private static void deleteEntities(List<Integer> steps,  List<Book> books, List<Member> members, List<BookMember> history) {
+        int choice = Menu.displayDeleteEntityMenu();
+        steps.add(choice);
+        switch (choice) {
+            case 0, 4:
+                break;
+            case 1:
+                MemberRepository.deleteMember(members);
+                break;
+            case 2:
+                BookRepository.deleteBook(steps, books);
+                break;
+            case 3:
+                System.out.println("Not yet implemented");
+                break;
+            default:
+                System.out.println("Invalid choice, returning to home menu");
+                break;
+        }
     }
 
     public static void performInteraction(List<Integer> steps, ArrayList<Book> books, ArrayList<Member> members, ArrayList<BookMember> history){
@@ -69,7 +86,7 @@ public class LibraryManager {
                 updateEntities(steps, books, members, history);
                 break;
             case 2:
-                deleteEntities();
+                deleteEntities(steps, books, members, history);
                 break;
             case 3:
                 BookRepository.borrowBook(books, members, history);
