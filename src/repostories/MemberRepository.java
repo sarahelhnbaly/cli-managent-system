@@ -221,5 +221,15 @@ public class MemberRepository {
     }
 
     public static void deleteMember(List<Member> members) {
+        System.out.println("========== Delete Member ===========");
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Input id of member to be deleted: ");
+        int memberId = scanner.nextInt();
+        boolean memberDeleted = members.removeIf(member -> member.getId() == memberId );
+        if (memberDeleted){
+            System.out.println("Member has been deleted\n");
+        } else {
+            System.out.println("Member with id: " + memberId + " was not found please try again later!\n");
+        }
     }
 }

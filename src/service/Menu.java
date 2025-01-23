@@ -44,8 +44,7 @@ public class Menu {
         System.out.println("========== Update Entity ===========");
         System.out.println("1. Update Member");
         System.out.println("2. Update Book");
-        System.out.println("3. Update Lending History");
-        System.out.println("4. Go To Main Menu");
+        System.out.println("3. Go To Main Menu");
         System.out.println("0. Exit");
         System.out.print("Input operation: ");
         return scanner.nextInt();

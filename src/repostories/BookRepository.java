@@ -103,6 +103,12 @@ public class BookRepository {
         System.out.println("Book successfully added\n");
     }
 
+    /**
+     * Ensures no book with same title exist since all book titles are to be unique
+     * @param title new title of book supplied by the user
+     * @param books books in the library
+     * @return either null or a Book instance
+     */
     public static Book validateBookTitle(String title, List<Book> books){
         for (Book currentBook : books) {
             if (Objects.equals(title.toLowerCase(), currentBook.getTitle().toLowerCase())){
@@ -113,6 +119,11 @@ public class BookRepository {
         return null;
     }
 
+    /**
+     * Updates the books title to a new title based on the user
+     * @param book book to be updated
+     * @param books books in library
+     */
     public static void updateBookTitle(Book book, List<Book> books){
         Scanner scanner = new Scanner(System.in);
         System.out.println("========== Update Book title: " + book.getTitle() + " ===========");
@@ -131,6 +142,12 @@ public class BookRepository {
         System.out.println("Book successfully updated\n");
     }
 
+    /**
+     * Validates the book id to ensure the user doesn't put duplicate id
+     * @param id the newId supplied by the user
+     * @param books the list of books in the library to use for validation
+     * @return It returns null or the current book if a duplicate book is found
+     */
     public static Book validateBookId(int id, List<Book> books){
         for (Book currentBook : books) {
             if (id == currentBook.getId()) {
@@ -141,7 +158,11 @@ public class BookRepository {
         return null;
     }
 
-    public static void updateBookAuthor(Book book, List<Book> books){
+    /**
+     * Updates the book author to the author the user inputs
+     * @param book book to be updated
+     */
+    public static void updateBookAuthor(Book book){
         Scanner scanner = new Scanner(System.in);
         System.out.println("========== Update Book Author: " + book.getAuthor() + " ===========");
         System.out.print("Input new book Author: ");
@@ -150,6 +171,12 @@ public class BookRepository {
         System.out.println("Book successfully updated\n");
     }
 
+    /**
+     * Updates the book id based on input from
+     * user and also checks if there is a book with the same id so as not to have duplicate ids
+     * @param book The book to be updated
+     * @param books books in library to validate the id of the book selected
+     */
     public static void updateBookId(Book book, List<Book> books){
         Scanner scanner = new Scanner(System.in);
         System.out.println("========== Update Book Id: " + book.getId() + " ===========");
@@ -168,7 +195,11 @@ public class BookRepository {
         System.out.println("Book successfully updated\n");
     }
 
-    public static void updateBookCount(Book book, List<Book> books){
+    /**
+     * Updates book count when user wants to update the amount of available copies of a book
+     * @param book book to update copies count
+     */
+    public static void updateBookCount(Book book){
         Scanner scanner = new Scanner(System.in);
         System.out.println("========== Update Book count ===========");
         System.out.print("Input number of available copies: ");
@@ -177,7 +208,11 @@ public class BookRepository {
         System.out.println("Book successfully updated\n");
     }
 
-
+    /**
+     * Updates the book in library system
+     * @param steps used for tracking user input
+     * @param books books in library
+     */
     public static void updateBook(List<Integer> steps, List<Book> books){
         Scanner scanner = new Scanner(System.in);
         System.out.print("Input book id: ");
@@ -202,13 +237,13 @@ public class BookRepository {
                 updateBookTitle(selectedBook, books);
                 break;
             case 2:
-                updateBookAuthor(selectedBook, books);
+                updateBookAuthor(selectedBook);
                 break;
             case 3:
                 updateBookId(selectedBook, books);
                 break;
             case 4:
-                updateBookCount(selectedBook, books);
+                updateBookCount(selectedBook);
                 break;
             default:
                 System.out.println("Invalid choice");
@@ -335,8 +370,21 @@ public class BookRepository {
         System.out.println("===================================\n");
     }
 
-    public static void deleteBook(List<Integer> steps, List<Book> books) {
-
-
+    /**
+     * Deletes book from the library if it exists
+     * else it tells the user the book doesn't exist
+     * @param books books to be searched for the book to be deleted
+     */
+    public static void deleteBook(List<Book> books) {
+        System.out.println("========== Delete Book ===========");
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Input id of book to be deleted: ");
+        int bookId = scanner.nextInt();
+        boolean bookDeleted = books.removeIf(book -> book.getId() == bookId );
+        if (bookDeleted){
+            System.out.println("Book has been deleted\n");
+        } else {
+            System.out.println("Book with id: " + bookId + " was not found please try again later!\n");
+        }
     }
 }

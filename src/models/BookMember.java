@@ -59,6 +59,10 @@ public class BookMember implements Entity {
         return bookId + "," + memberId + "," + returned + "\n";
     }
 
+    public String displayModel(){
+        return "Borrowing Member id: " + memberId + ", book id borrowed: " + bookId;
+    }
+
     @Override
     public BookMember convertStringToEntity(String data) {
         String[] fields = data.replace("\n", "").split(",");
