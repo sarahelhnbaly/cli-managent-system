@@ -10,6 +10,7 @@ public class Menu {
         System.out.println("1. Add Entity");
         System.out.println("2. Show All Entities");
         System.out.println("3. Perform Interaction");
+        System.out.println("4. Get Most borrowed Book");
         System.out.println("0. Exit");
         System.out.print("Input operation: ");
         return scanner.nextInt();

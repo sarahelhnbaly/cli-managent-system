@@ -39,6 +39,9 @@ public class Main {
                     case 3:
                         LibraryManager.performInteraction(steps, books, members, ledger.getHistory());
                         break;
+                    case 4:
+                        LibraryManager.report(ledger.getHistory(), books);
+                        break;
                     default:
                         System.out.println("Invalid choice");
                         break;

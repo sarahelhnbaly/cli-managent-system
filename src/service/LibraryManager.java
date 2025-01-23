@@ -6,9 +6,7 @@ import models.Member;
 import repostories.BookRepository;
 import repostories.MemberRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class LibraryManager {
     public static void addEntity(List<Integer> steps, ArrayList<Book> books, ArrayList<Member> members){
@@ -131,5 +129,42 @@ public class LibraryManager {
                 System.out.println("Invalid choice, returning to home menu");
                 break;
         }
+    }
+
+    public static void report(ArrayList<BookMember> history, ArrayList<Book> books) {
+        Map.Entry<Integer, Integer> highest = getMostBorrowedBookId(history);
+        Book highestBorrowedBook = null;
+        for (Book book : books) {
+            if (highest != null && highest.getKey() == book.getId()){
+                highestBorrowedBook = book;
+            }
+        }
+
+        if (highestBorrowedBook != null){
+            System.out.println("Highest borrowed book is: " + highestBorrowedBook.getTitle());
+        } else {
+            System.out.println("No book has been borrowed");
+        }
+    }
+
+    private static Map.Entry<Integer, Integer> getMostBorrowedBookId(ArrayList<BookMember> history) {
+        Map<Integer, Integer> metrics = new HashMap<>();
+        for (BookMember bookMember : history) {
+            int bookId = bookMember.getBookId();
+            Integer bookCount = metrics.get(bookId);
+            int count = bookCount == null ? 0 : bookCount + 1;
+            metrics.put(bookId, count);
+        }
+
+        Map.Entry<Integer, Integer> highest = null;
+
+        for (Map.Entry<Integer, Integer> subSet : metrics.entrySet()){
+            if (highest == null){
+                highest = subSet;
+            } else if (highest.getValue() < subSet.getValue()){
+                highest = subSet;
+            }
+        }
+        return highest;
     }
 }
